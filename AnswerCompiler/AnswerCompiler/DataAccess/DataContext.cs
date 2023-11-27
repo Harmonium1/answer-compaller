@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace AnswerCompiler;
+namespace AnswerCompiler.DataAccess;
 
 public class DataContext: DbContext
 {
-    public DbSet<UserEntity> Users { get; set; }
+    public DbSet<UserEntity> Users { get; set; } = null!;
 
     private readonly IConfiguration _configuration;
 
@@ -17,8 +17,7 @@ public class DataContext: DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<UserEntity>().ToContainer("Users").HasNoDiscriminator();
-        modelBuilder.Entity<UserEntity>().HasKey(u => u.UserId);
-        //modelBuilder.Entity<UserEntity>().Property(p=>p.UserId).ValueGeneratedOnAdd();
+        modelBuilder.Entity<UserEntity>().HasKey(u => u.LineUserId);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

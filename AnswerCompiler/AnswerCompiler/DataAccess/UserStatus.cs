@@ -1,6 +1,6 @@
-﻿namespace AnswerCompiler;
+﻿namespace AnswerCompiler.DataAccess;
 
-public enum Status
+public enum UserStatus
 {
     Creating,
     RegisteringName,
