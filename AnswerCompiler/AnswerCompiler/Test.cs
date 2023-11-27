@@ -57,7 +57,7 @@ public class Test
                     UserEntity user = await _dataContext.Users.FirstAsync(user => user.LineUserId == source.UserId);
                     if (messageEvent.Message is not TextMessage message) 
                         throw new ArgumentException();
-                        user.Name = message.Text;
+                    user.Name = message.Text;
                     break;
                     
             }

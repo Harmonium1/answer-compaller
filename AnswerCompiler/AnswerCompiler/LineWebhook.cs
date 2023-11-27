@@ -42,6 +42,11 @@ public class MessageEvent : BaseEvent
 {
     public string ReplyToken { get; set; }
     public Message Message { get; set; }
+    
+    public ReplyAction CreateReply(params TextMessage[] messages)
+    {
+        return new ReplyAction { Messages = messages.ToList(), ReplyToken = ReplyToken };
+    }
 }
 public class FollowEvent : BaseEvent
 {
