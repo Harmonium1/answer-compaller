@@ -3,7 +3,7 @@
 
 namespace AnswerCompiler.LineApi.Models;
 
-public class RequestBody
+public class WebhookBody
 {
     public string Destination { get; set; } = null!;
     public IReadOnlyCollection<BaseEvent>? Events { get; set; }
