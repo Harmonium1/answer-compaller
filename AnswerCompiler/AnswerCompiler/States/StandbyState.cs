@@ -13,6 +13,7 @@ public class StandbyState : BaseState, IState
     
     public async Task OnEnter()
     {
+        await UserStatusTo(UserStatus.Standby);
         await LinePush("You are registered. Please, enter a survey number.");
     }
 

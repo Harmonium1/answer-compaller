@@ -3,6 +3,7 @@ using AnswerCompiler.LineApi;
 using AnswerCompiler.LineApi.Models;
 using AnswerCompiler.LineApi.Models.Common;
 using Microsoft.EntityFrameworkCore;
+// ReSharper disable ClassNeverInstantiated.Global
 
 namespace AnswerCompiler.States;
 

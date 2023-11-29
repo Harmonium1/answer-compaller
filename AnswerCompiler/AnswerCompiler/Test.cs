@@ -13,19 +13,17 @@ namespace AnswerCompiler;
 public class Test
 {
     private readonly StateMachine _stateMachine;
-    private readonly LineApiClient _client;
 
-    public Test(StateMachine stateMachine, LineApiClient client)
+    public Test(StateMachine stateMachine)
     {
         _stateMachine = stateMachine;
-        _client = client;
     }
     
     [Function("Test")]
     public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestData req,
         FunctionContext executionContext)
     {
-        WebhookBody webhook = _client.ReadRequest(req.Body);
+        WebhookBody webhook = req.GetData();
 
         if (webhook.Events is null || webhook.Events.Count == 0)
         {
@@ -36,7 +34,8 @@ public class Test
         {
             IState currentState = await _stateMachine.GetState(baseEvent);
             IState nextState = await currentState.Promote();
-            await nextState.OnEnter();
+            if (currentState != nextState)
+                await nextState.OnEnter();
         }
         
         return req.Ok();
