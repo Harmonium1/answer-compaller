@@ -1,9 +1,8 @@
 using System.Text.Json.Serialization;
-using AnswerCompiler.LineApi.Models.Common;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
-namespace AnswerCompiler.LineApi.Models;
+namespace AnswerCompiler.LineApi.Models.Events;
 
 [JsonPolymorphic(TypeDiscriminatorPropertyName = "type")]
 [JsonDerivedType(typeof(FollowEvent), typeDiscriminator: "follow")]

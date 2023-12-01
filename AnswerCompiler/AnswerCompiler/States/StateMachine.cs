@@ -1,7 +1,6 @@
 using AnswerCompiler.DataAccess;
 using AnswerCompiler.LineApi;
-using AnswerCompiler.LineApi.Models;
-using AnswerCompiler.LineApi.Models.Common;
+using AnswerCompiler.LineApi.Models.Events;
 using Microsoft.EntityFrameworkCore;
 // ReSharper disable ClassNeverInstantiated.Global
 

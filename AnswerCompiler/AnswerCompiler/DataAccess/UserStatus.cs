@@ -5,5 +5,6 @@ public enum UserStatus
     Creating,
     RegisteringName,
     Standby,
+    SurveyRequested,
     Active
 }

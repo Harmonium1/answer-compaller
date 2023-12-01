@@ -1,6 +1,6 @@
 using AnswerCompiler.DataAccess;
 using AnswerCompiler.LineApi;
-using AnswerCompiler.LineApi.Models;
+using AnswerCompiler.LineApi.Models.Events;
 
 namespace AnswerCompiler.States;
 

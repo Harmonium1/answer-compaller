@@ -1,7 +1,7 @@
 using AnswerCompiler.DataAccess;
 using AnswerCompiler.LineApi;
 using AnswerCompiler.LineApi.Models;
-using AnswerCompiler.LineApi.Models.Common;
+using AnswerCompiler.LineApi.Models.Events;
 using Microsoft.EntityFrameworkCore;
 
 namespace AnswerCompiler.States;
@@ -24,10 +24,12 @@ public abstract class BaseState
         
         LineUserId = userSource.UserId;
     }
-    
+
+    protected async Task LinePush(Message message) => await ApiClient.Push(LineUserId, false, message);
     protected async Task LinePush(string message) => await ApiClient.Push(LineUserId, false, message);
     protected async Task LineReply(string replyToken, string message) => await ApiClient.Reply(replyToken, false, message);
-    
+    protected async Task<UserEntity> GetUser() => await DataContext.Users.FirstAsync(u => u.LineUserId == LineUserId);
+
     protected async Task UserStatusTo(UserStatus newStatus)
     {
         var user = await DataContext.Users.FirstAsync(u => u.LineUserId == LineUserId);

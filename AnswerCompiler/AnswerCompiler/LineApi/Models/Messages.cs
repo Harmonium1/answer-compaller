@@ -1,4 +1,6 @@
 using System.Text.Json.Serialization;
+using AnswerCompiler.LineApi.Models.Messages;
+
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
@@ -20,4 +22,10 @@ public class TextMessage : Message
     }
     public string Text { get; set;}
     public string? QuoteToken { get; set;}
+}
+
+public class TemplateMessage : Message
+{
+    public string AltText { get; set; } = null!;
+    public Template Template { get; set; } = null!;
 }

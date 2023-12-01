@@ -5,6 +5,6 @@
     },
     "Values": {
         "BotOptions:LineApiKey": "IrlE74YOh53PwCtRyu6DBhNvkN2gfUp6LwHpx7L5DxsGV7qE/k/40Tc4dlCK8wHRkV6ci8JTPFfwlnx7vz1CtuaJB/BEjo8VxxUo2SHsX31ZFokK0oOW7KBO4oCwUxeFR1CWh7hw69eKuQy6XsstdgdB04t89/1O/w1cDnyilFU=",
-        "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+        "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated"
     }
 }

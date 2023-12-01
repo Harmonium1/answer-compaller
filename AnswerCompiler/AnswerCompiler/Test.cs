@@ -3,10 +3,10 @@ using AnswerCompiler.DataAccess;
 using AnswerCompiler.Extensions;
 using AnswerCompiler.LineApi;
 using AnswerCompiler.LineApi.Models;
+using AnswerCompiler.LineApi.Models.Events;
 using AnswerCompiler.States;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
-using Microsoft.Extensions.Logging;
 
 namespace AnswerCompiler;
 

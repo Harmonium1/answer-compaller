@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace AnswerCompiler.LineApi.Models.Common;
+namespace AnswerCompiler.LineApi.Models.Events;
 
 [JsonPolymorphic(TypeDiscriminatorPropertyName = "type")]
 [JsonDerivedType(typeof(UserSource), typeDiscriminator: "user")]

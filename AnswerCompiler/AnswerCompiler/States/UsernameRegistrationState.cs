@@ -1,7 +1,7 @@
 using AnswerCompiler.DataAccess;
 using AnswerCompiler.LineApi;
 using AnswerCompiler.LineApi.Models;
-using Microsoft.EntityFrameworkCore;
+using AnswerCompiler.LineApi.Models.Events;
 
 namespace AnswerCompiler.States;
 
@@ -26,7 +26,7 @@ public class UsernameRegistrationState: BaseState, IState
         if (messageEvent.Message is not TextMessage textMessage)
             throw new ArgumentException("Wrong answer type. Text message is awaiting.");
         
-        var user = await DataContext.Users.FirstAsync(u => u.LineUserId == LineUserId);
+        UserEntity user = await GetUser();
         user.Name = textMessage.Text;
         await DataContext.SaveChangesAsync();
         

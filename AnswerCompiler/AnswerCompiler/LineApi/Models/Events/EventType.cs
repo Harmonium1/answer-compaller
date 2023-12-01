@@ -1,5 +1,5 @@
 // ReSharper disable IdentifierTypo
-namespace AnswerCompiler.LineApi.Models.Common;
+namespace AnswerCompiler.LineApi.Models.Events;
 
 public enum EventType
 {
