@@ -8,7 +8,7 @@ public class SurveyEntity
     public DateTimeOffset Created { get; set; }
     public DateTimeOffset Closed { get; set; }
     public int VariantsAmount { get; set; }
-    public List<SurveyUsersData> AppliedUsers { get; set; } = new();
+    public List<string> AppliedUserIds { get; set; } = new();
     public List<SurveyAnswerEntity> Answers { get; set; } = new();
 
     public static int RandomNumber() => new Random().Next(10000);

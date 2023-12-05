@@ -35,7 +35,7 @@ public abstract class BaseState
 
     protected async Task UserStatusTo(UserStatus newStatus)
     {
-        var user = await DataContext.Users.FirstAsync(u => u.LineUserId == LineUserId);
+        var user = await DataContext.Users.FirstAsync(u => u.UserId == LineUserId);
         user.Status = newStatus;
         await DataContext.SaveChangesAsync();
     }

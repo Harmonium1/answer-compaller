@@ -26,7 +26,7 @@ public class SurveyCreatingState: BaseState, IState
         DataContext.Surveys.Add(new()
         {
             SurveyId = Guid.NewGuid(),
-            AuthorId = user.LineUserId,
+            AuthorId = user.UserId,
             Created = DateTimeOffset.Now,
             VariantsAmount = questionsAmount,
             EnterNumber = surveyNumber

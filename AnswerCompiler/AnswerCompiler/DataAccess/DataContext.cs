@@ -22,8 +22,8 @@ public sealed class DataContext: DbContext
         modelBuilder.Entity<UserEntity>()
             .ToContainer("Users")
             .HasNoDiscriminator()
-            .HasPartitionKey(u => u.LineUserId)
-            .HasKey(u => u.LineUserId);
+            .HasPartitionKey(u => u.UserId)
+            .HasKey(u => u.UserId);
 
         modelBuilder.Entity<SurveyEntity>()
             .ToContainer("Surveys")
@@ -31,13 +31,6 @@ public sealed class DataContext: DbContext
             .HasPartitionKey(u => u.SurveyId)
             .HasKey(u => u.SurveyId);
 
-        modelBuilder.Entity<SurveyEntity>().OwnsMany(
-            o => o.AppliedUsers,
-            u =>
-            {
-                u.ToJsonProperty("AppliedUsers");
-            });
-        
         modelBuilder.Entity<SurveyEntity>().OwnsMany(
             o => o.Answers,
             u =>

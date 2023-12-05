@@ -17,14 +17,14 @@ public class SurveyRunningState: BaseState, IState
         await UserStatusTo(UserStatus.SurveyRunning);
 
         UserEntity user = await GetUser();
-        var lastSurvey = DataContext.Surveys.Where(s => s.AuthorId == user.LineUserId).ToList();
+        var lastSurvey = DataContext.Surveys.Where(s => s.AuthorId == user.UserId).ToList();
         if (lastSurvey is null)
         {
             throw new ArgumentException("Cant find started surveys");
         }
         
         int questionNum = lastSurvey.MaxBy(x=>x.Created)!.Answers.Count != 0 ?
-            lastSurvey.MaxBy(x=>x.Created)!.Answers.Select(a => a.QuestionNum).Max()
+            lastSurvey.MaxBy(x=>x.Created)!.Answers.Select(a => a.QuestionId).Max()
             : 1;
         var message = new TemplateMessage()
         {
@@ -45,7 +45,7 @@ public class SurveyRunningState: BaseState, IState
             });
         }
 
-        string[] sendingUsers = lastSurvey.MaxBy(x=>x.Created)!.AppliedUsers.Select(au => au.LineUserId).ToArray();
+        string[] sendingUsers = lastSurvey.MaxBy(x=>x.Created)!.AppliedUserIds.ToArray();
 
         await LineMulticast(sendingUsers, message);
 

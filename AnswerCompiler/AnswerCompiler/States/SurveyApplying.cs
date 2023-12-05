@@ -28,7 +28,7 @@ public class SurveyApplying: BaseState, IState
             await LinePush("Wrong input: survey with this number is not exist. Try another one");
             return;
         }
-        survey.AppliedUsers.Add(new SurveyUsersData(){LineUserId = user.LineUserId, Name = user.Name});
+        survey.AppliedUserIds.Add(user.UserId);
         await UserStatusTo(UserStatus.SurveyWaiting);
         
         await LinePush("You have connected to survey #"+enterNumber+". Please, wait until beginning");

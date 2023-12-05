@@ -20,7 +20,7 @@ public class UserCreatingState : BaseState, IState
 
         DataContext.Users.Add(new()
         {
-            LineUserId = LineUserId,
+            UserId = LineUserId,
             Status = UserStatus.Creating,
             Role = UserRole.Student
         });

@@ -6,6 +6,11 @@
                 "isEnabled": true
             },
             "enableLiveMetricsFilters": true
+        },
+        "logLevel": {
+            "default": "Warning",
+            "Host": "Information",
+            "Function": "Information"
         }
     }   
 }
