@@ -26,6 +26,11 @@ public class StandbyState : BaseState, IState
             return new SurveyCreatingState(ApiClient, DataContext, BaseEvent);
         }
 
+        if (BaseEvent is MessageEvent && user.Role == UserRole.Student)
+        {
+            return new SurveyApplying(ApiClient, DataContext, BaseEvent);
+        }
+
         throw new NotImplementedException();
     }
 }

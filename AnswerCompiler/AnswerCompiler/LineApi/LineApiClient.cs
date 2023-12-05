@@ -53,6 +53,20 @@ public class LineApiClient
         return await result.Content.ReadAsStringAsync();
     }
     
+    public async Task<string> Multicast(string[] toLineUserIds, bool notify, params Message[] messages)
+    {
+        var model = new MulticastBody()
+        {
+            To = toLineUserIds,
+            Messages = messages,
+            NotificationDisabled = !notify
+        };
+        string serializedModel = JsonSerializer.Serialize(model,_jsonSerializerOptions);
+        var body = new StringContent(serializedModel, new MediaTypeHeaderValue("application/json"));
+        var result = await _httpClient.PostAsync("v2/bot/message/multicast", body);
+        return await result.Content.ReadAsStringAsync();
+    }
+    
     public async Task<string> Reply(string replyToken, bool notify, params string[] texts)
     {
         var messageObjects = texts.Select(text => new TextMessage(text)).Cast<Message>().ToArray();

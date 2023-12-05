@@ -21,8 +21,8 @@ public class StateMachine
     {
         if (incomeEvent.Source is not UserSource userSource)
             throw new ArgumentException("Event has wrong user source");
+        UserEntity? user = await _dataContext.Users.FindAsync(userSource.UserId);
         
-        UserEntity? user = await _dataContext.Users.FirstOrDefaultAsync(user => user.LineUserId == userSource.UserId);
         IState currentState = user switch
         {
             null when incomeEvent is FollowEvent
@@ -32,6 +32,8 @@ public class StateMachine
                 => new UsernameRegistrationState(_client, _dataContext, incomeEvent),
             _ when user.Status == UserStatus.Standby
                 => new StandbyState(_client, _dataContext, incomeEvent),
+            _ when user.Status == UserStatus.SurveyRequested
+                => new SurveyCreatingState(_client, _dataContext, incomeEvent),
             _ => throw new NotImplementedException()
         };
 

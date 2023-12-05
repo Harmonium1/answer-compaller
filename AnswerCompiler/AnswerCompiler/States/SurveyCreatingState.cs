@@ -22,7 +22,7 @@ public class SurveyCreatingState: BaseState, IState
         }
 
         UserEntity user = await GetUser();
-        int surveyNumber = Survey.RandomNumber();
+        int surveyNumber = SurveyEntity.RandomNumber();
         DataContext.Surveys.Add(new()
         {
             SurveyId = Guid.NewGuid(),
@@ -56,8 +56,8 @@ public class SurveyCreatingState: BaseState, IState
         await LinePush(message);
     }
 
-    public Task<IState> Promote()
+    public async Task<IState> Promote()
     {
-        throw new NotImplementedException();
+        return await Task.FromResult(new SurveyRunningState(ApiClient, DataContext, BaseEvent));
     }
 }

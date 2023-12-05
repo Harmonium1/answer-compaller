@@ -7,6 +7,7 @@ namespace AnswerCompiler.LineApi.Models.Events;
 [JsonPolymorphic(TypeDiscriminatorPropertyName = "type")]
 [JsonDerivedType(typeof(FollowEvent), typeDiscriminator: "follow")]
 [JsonDerivedType(typeof(MessageEvent), typeDiscriminator: "message")]
+[JsonDerivedType(typeof(PostbackEvent), typeDiscriminator: "postback")]
 public class BaseEvent
 {
     public EventType Type { get; set; }
@@ -25,4 +26,9 @@ public class MessageEvent : BaseEvent
 public class FollowEvent : BaseEvent
 {
     public string ReplyToken { get; set; } = null!;
+}
+public class PostbackEvent : BaseEvent
+{
+    public string ReplyToken { get; set; } = null!;
+    public PostbackData Postback { get; set; } = null!;
 }

@@ -6,7 +6,7 @@ namespace AnswerCompiler.DataAccess;
 public sealed class DataContext: DbContext
 {
     public DbSet<UserEntity> Users { get; set; } = null!;
-    public DbSet<Survey> Surveys { get; set; } = null!;
+    public DbSet<SurveyEntity> Surveys { get; set; } = null!;
 
     private readonly IConfiguration _configuration;
 
@@ -19,11 +19,31 @@ public sealed class DataContext: DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<UserEntity>().ToContainer("Users").HasNoDiscriminator();
-        modelBuilder.Entity<UserEntity>().HasKey(u => u.LineUserId);
+        modelBuilder.Entity<UserEntity>()
+            .ToContainer("Users")
+            .HasNoDiscriminator()
+            .HasPartitionKey(u => u.LineUserId)
+            .HasKey(u => u.LineUserId);
+
+        modelBuilder.Entity<SurveyEntity>()
+            .ToContainer("Surveys")
+            .HasNoDiscriminator()
+            .HasPartitionKey(u => u.SurveyId)
+            .HasKey(u => u.SurveyId);
+
+        modelBuilder.Entity<SurveyEntity>().OwnsMany(
+            o => o.AppliedUsers,
+            u =>
+            {
+                u.ToJsonProperty("AppliedUsers");
+            });
         
-        modelBuilder.Entity<Survey>().ToContainer("Surveys").HasNoDiscriminator();
-        modelBuilder.Entity<Survey>().HasKey(survey => survey.SurveyId);
+        modelBuilder.Entity<SurveyEntity>().OwnsMany(
+            o => o.Answers,
+            u =>
+            {
+                u.ToJsonProperty("Answers");
+            });
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

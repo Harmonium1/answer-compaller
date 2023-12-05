@@ -6,7 +6,7 @@ namespace AnswerCompiler.LineApi.Models.Messages;
 [JsonDerivedType(typeof(ButtonsTemplate), typeDiscriminator: "buttons")]
 public abstract class Template
 {
-    public string Type { get; set; } = null!;
+    protected string Type { get; set; } = null!;
 }
 public class ButtonsTemplate : Template
 {

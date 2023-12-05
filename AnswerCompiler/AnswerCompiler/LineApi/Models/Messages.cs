@@ -9,6 +9,7 @@ namespace AnswerCompiler.LineApi.Models;
 
 [JsonPolymorphic(TypeDiscriminatorPropertyName = "type")]
 [JsonDerivedType(typeof(TextMessage), typeDiscriminator: "text")]
+[JsonDerivedType(typeof(TemplateMessage), typeDiscriminator: "template")]
 public class Message
 {
     protected string Type { get; } = null!;
