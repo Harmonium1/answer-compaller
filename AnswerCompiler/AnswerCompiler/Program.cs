@@ -2,14 +2,12 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using AnswerCompiler.Configuration;
 using AnswerCompiler.DataAccess;
-using AnswerCompiler.Extensions;
 using AnswerCompiler.LineApi;
-using AnswerCompiler.States;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-var host = new HostBuilder()
+IHost? host = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults()
     .ConfigureServices(services =>
     {
@@ -25,9 +23,6 @@ var host = new HostBuilder()
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             Converters = {new JsonStringEnumConverter()}
         });
-        services.AddScoped<StateMachine>();
-        
-        HttpRequestDataExtensions.JsonSerializerOptions = services.BuildServiceProvider().GetService<JsonSerializerOptions>()!;
     })
     .Build();
 

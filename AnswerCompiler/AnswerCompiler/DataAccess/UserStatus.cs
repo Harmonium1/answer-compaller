@@ -3,9 +3,9 @@
 public enum UserStatus
 {
     Creating = 0,
-    RegisteringName = 1,
+    ProfileCreate = 1,
     Standby = 2,
-    SurveyRequested = 3,
+    SurveyCreated = 3,
     SurveyWaiting = 4,
     SurveyRunning = 5
 }
