@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using AnswerCompiler.Configuration;
+using AnswerCompiler.Controllers;
 using AnswerCompiler.DataAccess;
 using AnswerCompiler.LineApi;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +24,8 @@ IHost? host = new HostBuilder()
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             Converters = {new JsonStringEnumConverter()}
         });
+        services.AddScoped<UserController>();
+        services.AddScoped<SurveyController>();
     })
     .Build();
 

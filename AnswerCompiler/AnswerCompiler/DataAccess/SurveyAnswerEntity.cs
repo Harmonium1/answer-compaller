@@ -7,7 +7,7 @@ public class SurveyAnswerEntity
     public string AuthorId { get; set; } = null!;
     public string Value { get; set; } = null!;
     
-    private SurveyAnswerEntity() { }
+    public SurveyAnswerEntity() { }
 
     public SurveyAnswerEntity(UserEntity author, int questionId, string value)
     {

@@ -27,7 +27,11 @@ public class UserController(LineApiClient apiClient, DataContext dataContext) : 
             user.Name = request.Name;
             user.Status = UserStatus.Standby;
             await DataContext.SaveChangesAsync();
-            await Push(user, "Name is registered.", "Please, enter a survey number.");
+            await Push(user, "Name is registered.");
+            if (user.Role == UserRole.Student)
+            {
+                await Push(user, "Please, enter a survey number.");
+            }
         }
         else if (request.PromoteToTeacher)
         {

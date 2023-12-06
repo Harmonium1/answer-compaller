@@ -12,7 +12,7 @@ public class SurveyEntity
     public List<SurveyAnswerEntity> Answers { get; set; } = new();
     
     private const int DefaultQuestionAmount = 4;
-    private SurveyEntity() { }
+    public SurveyEntity() { }
 
     public SurveyEntity(string authorId, int? variantsAmount)
     {

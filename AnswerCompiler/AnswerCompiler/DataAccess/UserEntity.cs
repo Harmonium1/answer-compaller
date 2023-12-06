@@ -9,7 +9,7 @@ public class UserEntity
     
     public DateTimeOffset Created { get; set; }
 
-    private UserEntity() { }
+    public UserEntity() { }
 
     public UserEntity(string userId)
     {
