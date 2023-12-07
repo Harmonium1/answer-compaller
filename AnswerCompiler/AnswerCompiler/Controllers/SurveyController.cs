@@ -2,6 +2,8 @@ using System.Net;
 using AnswerCompiler.DataAccess;
 using AnswerCompiler.LineApi;
 using AnswerCompiler.LineApi.Models;
+using Microsoft.EntityFrameworkCore;
+
 // ReSharper disable ClassNeverInstantiated.Global
 
 namespace AnswerCompiler.Controllers;
@@ -75,13 +77,12 @@ public class SurveyController(LineApiClient apiClient, DataContext dataContext) 
             throw new ArgumentException("Cant find survey to start");
         }
 
-        TemplateMessage questionMessage = MessagesBuilder.QuestionToUsers(currentSurvey);
+        TemplateMessage questionMessage = MessagesBuilder.SurveyQuestionToUsers(currentSurvey);
         var sendingUsers = currentSurvey.AppliedUserIds;
 
         await Multicast(sendingUsers, questionMessage);
 
-        //TODO: поправить модель на продолжение
-        TemplateMessage messageToTeacher = MessagesBuilder.SurveyStartConfirm(currentSurvey);
+        TemplateMessage messageToTeacher = MessagesBuilder.SurveyNextAction(currentSurvey);
         await Push(user, messageToTeacher);
         
         return HttpStatusCode.OK;
@@ -105,12 +106,61 @@ public class SurveyController(LineApiClient apiClient, DataContext dataContext) 
             await Push(user,
                 "You have already answer to this question. You cant change your answer, that is: " +
                 existedAnswer.Value);
+            return HttpStatusCode.OK;
         }
         
         currentSurvey.Answers.Add(new(user, request.QuestionId, request.Answer));
         await DataContext.SaveChangesAsync();
         await Push(user, "Your answer was received. You have selected: " + request.Answer);
         
+        return HttpStatusCode.OK;
+    }
+
+    public async Task<HttpStatusCode> Read(SurveyReadRequest request)
+    {
+        UserEntity user = await request.GetUser(DataContext);
+        if (user.Role <= UserRole.Student)
+        {
+            await Push(user, "Only teacher can get survey's result");
+            return HttpStatusCode.OK;
+        }
+        
+        SurveyEntity? currentSurvey = await DataContext.Surveys.FindAsync(request.SurveyId);
+        if (currentSurvey is null)
+        {
+            throw new ArgumentException("Cant find survey to start");
+        }
+        var currentAuthors = currentSurvey.Answers
+            .Where(answer => answer.QuestionId == request.QuestionId)
+            .Select(answer => answer.AuthorId);
+        var currentUsers = await DataContext.Users.Where(u => currentAuthors.Contains(u.UserId)).ToArrayAsync();
+        var messages = MessagesBuilder.AnswersMessages(currentSurvey, request.QuestionId, currentUsers)
+            .Cast<Message>()
+            .ToArray();
+        
+        await Push(user, messages);
+        return HttpStatusCode.OK;
+    }
+    
+    public async Task<HttpStatusCode> Stop(SurveyStopRequest request)
+    {
+        UserEntity user = await request.GetUser(DataContext);
+        if (user.Role <= UserRole.Student)
+        {
+            await Push(user, "Only teacher can get survey's result");
+            return HttpStatusCode.OK;
+        }
+        
+        SurveyEntity? currentSurvey = await DataContext.Surveys.FindAsync(request.SurveyId);
+        if (currentSurvey is null)
+        {
+            throw new ArgumentException("Cant find survey to start");
+        }
+        currentSurvey.Closed = DateTimeOffset.Now;
+        user.Status = UserStatus.Standby;
+        await DataContext.SaveChangesAsync();
+        
+        await Push(user, MessagesBuilder.SurveyCreate());
         return HttpStatusCode.OK;
     }
 }

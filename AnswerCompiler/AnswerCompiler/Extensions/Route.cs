@@ -40,7 +40,7 @@ public enum Actions
     Create,
     Read,
     Edit,
-    Delete,
+    Stop,
     Ask,
     Poll
 }

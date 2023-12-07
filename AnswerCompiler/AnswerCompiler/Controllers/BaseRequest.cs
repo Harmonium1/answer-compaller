@@ -97,3 +97,30 @@ public record SurveyPollRequest : BaseRequest
             : throw new ArgumentException("Can't find the user's answer.");
     }
 }
+public record SurveyReadRequest : BaseRequest
+{
+    public Guid SurveyId { get; }
+    public int QuestionId { get; }
+    public SurveyReadRequest(PostbackEvent eventData) : base(eventData)
+    {
+        Route route = Route.Parse(eventData.Postback.Data);
+        SurveyId = route.Properties.Keys.Contains(nameof(SurveyId))
+            ? Guid.Parse(route.Properties[nameof(SurveyId)])
+            : throw new ArgumentException("Can't find the survey to start.");
+        QuestionId = route.Properties.Keys.Contains(nameof(QuestionId))
+            ? int.Parse(route.Properties[nameof(QuestionId)])
+            : throw new ArgumentException("Can't find the question to poll.");
+    }
+}
+
+public record SurveyStopRequest : BaseRequest
+{
+    public Guid SurveyId { get; }
+    public SurveyStopRequest(PostbackEvent eventData) : base(eventData)
+    {
+        Route route = Route.Parse(eventData.Postback.Data);
+        SurveyId = route.Properties.Keys.Contains(nameof(SurveyId))
+            ? Guid.Parse(route.Properties[nameof(SurveyId)])
+            : throw new ArgumentException("Can't find the survey to start.");
+    }
+}

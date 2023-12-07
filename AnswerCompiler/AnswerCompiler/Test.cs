@@ -39,6 +39,10 @@ public class Test(UserController userController, SurveyController surveyControll
                     => await surveyController.Create(new(postbackEvent)),
                 PostbackEvent postbackEvent when Route.Parse(postbackEvent.Postback.Data) is { Control: Controls.Survey, Action: Actions.Ask }
                     => await surveyController.Ask(new(postbackEvent)),
+                PostbackEvent postbackEvent when Route.Parse(postbackEvent.Postback.Data) is { Control: Controls.Survey, Action: Actions.Read }
+                    => await surveyController.Read(new(postbackEvent)),
+                PostbackEvent postbackEvent when Route.Parse(postbackEvent.Postback.Data) is { Control: Controls.Survey, Action: Actions.Stop }
+                    => await surveyController.Stop(new(postbackEvent)),
                 PostbackEvent postbackEvent when Route.Parse(postbackEvent.Postback.Data) is { Control: Controls.User, Action: Actions.Poll }
                     => await surveyController.Poll(new(postbackEvent)),
                 null => throw new ArgumentException("Got the unknown request"),
